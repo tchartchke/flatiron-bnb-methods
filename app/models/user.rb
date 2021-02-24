@@ -4,4 +4,16 @@ class User < ActiveRecord::Base
   has_many :trips, :foreign_key => 'guest_id', :class_name => "Reservation"
   has_many :reviews, :foreign_key => 'guest_id'
   
+  def guests
+    reservations.map(&:guest)
+  end
+
+  def hosts
+    trips.map { |reservation| reservation.listing.host }
+  end
+
+  def host_reviews 
+    listings.map(&:reviews).flatten
+  end
+
 end
